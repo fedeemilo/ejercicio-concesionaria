@@ -1,10 +1,8 @@
 const http = require('http');
 const PORT = process.env.PORT || 8080;
 const {
-	calcularMasBarato,
-	calcularMasCaro,
-	encontrarLetraY,
-	imprimirInfoVehiculos,
+    imprimirCalculosVehiculos,
+	imprimirInfoVehiculos
 } = require('./scripts');
 const { Moto, Auto } = require('./clases');
 
@@ -24,6 +22,7 @@ const requestListener = function (req, res) {
 	res.end();
 };
 imprimirInfoVehiculos(listaVehiculos);
+imprimirCalculosVehiculos(listaVehiculos);
 
 const server = http.createServer(requestListener);
 server.listen(PORT, () => {

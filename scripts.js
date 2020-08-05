@@ -1,4 +1,9 @@
 const { Moto, Auto } = require('./clases');
+const formatterPeso = new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARG',
+    minimumFractionDigits: 0,
+});
 
 // Encontrar Vehiculo más caro
 const calcularMasCaro = (lista) => {
@@ -25,24 +30,15 @@ const encontrarLetraY = (lista) => {
 	return tienenY;
 };
 
-// /Marca: Peugeot // Modelo: 206 // Puertas: 4 // Precio: $200.000,00
-// Marca: Honda // Modelo: Titan // Cilindrada: 125c // Precio: $60.000,00
-// Marca: Peugeot // Modelo: 208 // Puertas: 5 // Precio: $250.000,00
-// Marca: Yamaha // Modelo: YBR // Cilindrada: 160c // Precio: $80.500,50
-// =============================
-// Vehículo más caro: Peugeot 208
-// Vehículo más barato: Honda Titan
-// Vehículo que contiene en el modelo la letra ‘Y’: Yamaha YBR $80.500,50
-
 // Función que imprime la información de los Vehiculos
-function imprimirInfoVehiculos(lista) {
-	const formatterPeso = new Intl.NumberFormat('es-AR', {
-		style: 'currency',
-		currency: 'ARG',
-		minimumFractionDigits: 0,
-	});
+const imprimirInfoVehiculos = (lista) => {
 
-	lista.forEach((elem) => {
+    // Comparo los precios para imprimir de mayor a menor
+    let compararPrecios = (a, b) => {
+        if (a.precio > b.precio) return -1;
+    }
+	
+	lista.sort(compararPrecios).forEach((elem) => {
 		// Verifico de que tipo es el vehiculo
 		if (elem instanceof Auto) {
 			console.log(
@@ -58,12 +54,27 @@ function imprimirInfoVehiculos(lista) {
 			);
 		}
 	});
+	console.log(
+		'===================================================================='
+	);
+}
+
+// Función que imprime los resultados de los calculos
+const imprimirCalculosVehiculos = (lista) => {
+
+    let vehiculoMasCaro = calcularMasCaro(lista);
+    let vehiculoMasBarato = calcularMasBarato(lista);
+    let vehiculoConY = encontrarLetraY(lista);
+
+    console.log(`Vehículo más caro: ${vehiculoMasCaro.marca} ${vehiculoMasCaro.modelo}`);
+    console.log(`Vehículo más barato: ${vehiculoMasBarato.marca} ${vehiculoMasBarato.modelo}`);
+    vehiculoConY.forEach(vehiculo => {
+        console.log(`Vehículo que contiene en el modelo la letra 'Y': ${vehiculo.marca} ${vehiculo.modelo} $${formatterPeso.format(vehiculo.precio).slice(4)}`);
+    })
 
 }
 
 module.exports = {
-	calcularMasBarato,
-	calcularMasCaro,
-	encontrarLetraY,
-	imprimirInfoVehiculos,
+    imprimirInfoVehiculos,
+    imprimirCalculosVehiculos
 };
