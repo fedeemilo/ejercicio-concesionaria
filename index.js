@@ -1,5 +1,5 @@
 const http = require('http');
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 const {
     imprimirCalculosVehiculos,
 	imprimirInfoVehiculos
@@ -16,11 +16,10 @@ const motoDos = new Moto('Yamaha', 'YBR', 80500.5, '160c');
 const listaVehiculos = [autoUno, autoDos, motoUno, motoDos];
 
 const requestListener = function (req, res) {
-	res.writeHead(200);
-
-    
+	res.writeHead(200); 
 	res.end();
 };
+
 imprimirInfoVehiculos(listaVehiculos);
 imprimirCalculosVehiculos(listaVehiculos);
 
